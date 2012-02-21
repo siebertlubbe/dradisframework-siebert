@@ -2,7 +2,7 @@
 # resource.
 class NodesController < ApplicationController
   before_filter :login_required
-  before_filter :find_or_initialize_node, :except => [ :index ]
+  before_filter :find_or_initialize_node, :except => [ :index, :sort ]
 
   respond_to :json
 
@@ -26,6 +26,14 @@ class NodesController < ApplicationController
     respond_with(@node)
   end
 
+  # POST /nodes/sort
+  def sort
+    params[:nodes].each_with_index do |id, index|
+      Node.update_all({:position => index+1}, {:id => id})
+    end
+    render :nothing => true
+  end
+
   # PUT /node/<id>
   def update
     if @node.update_attributes( params[:node] || ActiveSupport::JSON.decode(params[:data]) )
@@ -47,8 +55,8 @@ class NodesController < ApplicationController
           render_optional_error_file :not_found
         end
       else
-        @node = Node.new(params[:node])
+        @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
       end
-    end        
-
+      @node.updated_by = current_user
+    end
 end

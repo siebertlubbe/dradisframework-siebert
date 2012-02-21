@@ -111,19 +111,20 @@ class NotesController < ApplicationController
   # are going to be working with based on the :id passed by the user.
   def find_or_initialize_note
     if params[:id]
-      unless @note = Note.find_by_id(params[:id])
+      unless @note = Note.find(params[:id])
         render_optional_error_file :not_found
       end
     else
       @note = Note.new(params[:note] || ActiveSupport::JSON.decode(params[:data]))
       @note.node = @node
     end
+    @note.updated_by = current_user
   end
 
-  # This is an sfter_filter that increments the current revision if a note was
+  # This is an after_filter that increments the current revision if a note was
   # modified as a result of any of the operations exposed by this controller.
   def update_revision_if_modified
     return unless @modified
-    Configuration.increment_revision
+    ::Configuration.increment_revision
   end
 end

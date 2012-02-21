@@ -1,5 +1,6 @@
 # NmapUploadImport
 
+require 'nmap_upload/validator'
 require 'nmap_upload/filters'
 require 'nmap_upload/meta'
 
@@ -8,6 +9,7 @@ module NmapUpload
     configure :namespace => 'nmap'
     setting :category, :default => 'Nmap output'
     setting :author, :default => 'Nmap plugin'
+    setting :parent_node, :default => 'plugin.nmap'
   end
 end
 

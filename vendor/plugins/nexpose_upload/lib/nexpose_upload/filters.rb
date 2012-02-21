@@ -9,7 +9,7 @@ module NexposeUpload
   def self.import(params={})
     @plugin_author_name = Configuration.author
 
-    @category = Category.find_by_name(Configuration.category)
+    @category = Category.find_or_create_by_name(Configuration.category)
 
     #Create a parent node for the NeXpose output
     @nexpose_node = Node.create(:label => Configuration.node_label)
@@ -83,8 +83,8 @@ module NexposeUpload
     results.each do |host|
       current_host = Hash.new
       current_host['address'] = host['address']
-      current_host['fingerprint'] = host.search('fingerprint')[0]['certainty']
-      current_host['description'] = host.search('description')[0].text
+      current_host['fingerprint'] = host.search('fingerprint')[0].nil? ? "N/A" : host.search('fingerprint')[0]['certainty']
+      current_host['description'] = host.search('description')[0].nil? ? "N/A" : host.search('description')[0].text
 
 
       #So there's two sets of vulns in a NeXpose simple XML report for each host

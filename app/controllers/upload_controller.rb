@@ -7,9 +7,8 @@
 #
 # A convenience list method is provided that will return all the currently
 # loaded plugins of this category.
-class UploadController < ApplicationController
+class UploadController < AuthenticatedController
   include Plugins::Upload
-  before_filter :login_required
   before_filter :validate_uploader, :only => [:import, :create, :parse]
   after_filter :wrap_ajax_file_upload_response, :only => [:create]
 
@@ -37,6 +36,7 @@ class UploadController < ApplicationController
     @plugins = Plugins::Upload::included_modules.sort do |a,b|
       a::Meta::NAME <=> b::Meta::NAME
     end
+    @last_bj_uid = Log.maximum(:uid) || 1
   end
 
   # This method provides a list of all the available uploader plugins. It 
@@ -104,13 +104,25 @@ class UploadController < ApplicationController
     flash.now[:notice] = 'successfully uploaded'
   end
 
-  def parse   
+  def parse
     item_id = params[:item_id]
     uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
     attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
 
-    Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
-    Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
+    if File.size(attachment.fullpath) < 1024*1024
+      logger = Log.new(:uid => item_id)
+      logger.write('Small attachment detected. Processing in line.')
+      begin
+        @uploader.import(:file => attachment.fullpath, :logger => logger)
+      rescue Exception => e
+        logger.write('There was a fatal error processing your upload:')
+        logger.write(e.message)
+      end
+      logger.write('Worker process completed.')
+    else
+      Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
+      Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
+    end
   end
 
   def status

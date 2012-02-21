@@ -1,0 +1,159 @@
+noscript #logo {
+  background: image-url('logo_small.png') no-repeat;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+noscript p {
+  font-family: Verdana,Arial,Helvetica,sans-serif;
+  padding: 0.5ex;
+  margin: 3ex 3ex;
+}
+
+.add { 
+  background-image: image-url('silk/add.png') !important;
+}
+.import { 
+  background-image: image-url('import.gif') !important;
+}
+.export { 
+  background-image: image-url('export.png') !important;
+}
+.edit { 
+  background-image: image-url('edit.gif') !important;
+}
+.del { 
+  background-image: image-url('silk/delete.png') !important;
+}
+.options { 
+  background-image: image-url('list-items.gif') !important;
+}
+.error { 
+  background-image: image-url('silk/exclamation.png') !important;
+  background-repeat: no-repeat; 
+}
+
+.rss-off {
+  background-image: image-url('silk/feed.png') !important;
+}
+
+.rss-on {
+  background-image: image-url('silk/feed_add.png') !important;
+}
+
+.talleditor { height: 240px; }
+
+#first_render {
+  font-family: Verdana, Helvetica, Tahoma, Arial, sans-serif;
+  margin: 3ex;
+  overflow: auto;
+}
+#first_render h1 {
+  color: #15428B;
+  padding-bottom: 0.5ex;
+  border-bottom: 1px solid #D0DEF0;
+}
+
+#first_render .portlet {
+  border-left: 1px solid #E0EEE0;
+  border-bottom: 1px solid #E0EEE0;
+  border-right: 1px solid #E0EEE0;
+  width: 280px;
+  float: left;
+  margin-left: 2ex;
+  margin-top: 2ex;
+} 
+#first_render .portlet .head {
+  background-color: #D0DEF0;
+  /*color: #FFF;*/
+  color: #15428B;
+  font-weight: bold;
+  padding: 0.5ex;
+  padding-left: 1ex;
+}
+
+#first_render .portlet ul { padding: 0.5ex; }
+#first_render .portlet li.featureblock { border-top: 1px solid #EEE;}
+#first_render .portlet li .feature { 
+  padding: 0.5ex;
+  color: #15428B;
+  border-bottom: 1px solid #D0DEF0;
+}
+#first_render .portlet li {margin-top: 0.25ex; } 
+#first_render .portlet li a:hover { text-decoration: underline; }
+#first_render .portlet li ul { 
+  margin: 0.5ex;
+  font-size: 80%;
+  list-style: lower-roman;
+  padding-left: 1.5em;
+}
+
+#first_render .portlet li strong { font-weight: bold; }
+
+.x-grid3-row-body { overflow: scroll; }
+
+.topic {
+    padding: 1ex 1ex 2em 20px;
+    background:#FFF image-url('post.gif') no-repeat 0 2px;
+    border-bottom: 1px solid #CCC;
+}
+
+.topic b {
+    font-family:tahoma, verdana;
+    display:block;
+    color:#333;
+}
+
+.topic .author {
+    color:#333;
+}
+
+.topic .description { font-style: italic; }
+
+/* ************************************** Notes styles */
+#notes { 
+  padding: 3ex; 
+  font-family:"Lucida Grande",verdana,arial,helvetica,sans-serif; 
+  font-size:14px;
+}
+#notes .note {
+  border:1px solid #d7d7d7;
+  -webkit-border-radius: 4px;
+  -moz-border-radius:    4px;
+  border-radius:         4px;
+  clear:both;
+  color:#3e3e3e;
+  margin-bottom:10px;
+}
+
+#notes .noteheader {
+  background: #D0DEF0;
+  border: 1px solid #d7d7d7;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-top-left-radius:  4px;
+  -moz-border-radius-topright:     4px;
+  -moz-border-radius-topleft:      4px;
+  border-top-right-radius:         4px;
+  border-top-left-radius:          4px;
+  font: bold HelveticaNeue, Helvetica, Arial, sans-serif;
+  color: #777;
+  margin: -1px -1px 0;
+  padding: 4px 0;
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+#notes .noteheader span {
+  float: right; 
+  font-size: 12px; 
+  margin-right: 10px;
+}
+
+#notes .notefooter {
+  color: #CCC;
+  font: 11px Helvetica,Arial,sans-serif;
+  margin-left: 10px;
+}

@@ -7,7 +7,8 @@ module NessusUpload
   class Configuration < Core::Configurator
     configure :namespace => 'nessus'
     setting :category, :default => 'Nessus output'
-    setting :autor, :default => 'Nessus plugin'
+    setting :author, :default => 'Nessus plugin'
+    setting :parent_node, :default => 'plugin.nessus'
   end
 end
 

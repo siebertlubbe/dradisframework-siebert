@@ -1,0 +1,53 @@
+/*
+*= require clean/reset
+*= require clean/defaults
+*= require clean/type
+*= require clean/forms
+*= require clean/tables
+*= require clean/lists
+*= require clean/screen
+*= require_self
+*/
+
+/*==================================================== Configuration Manager */
+body.configurations {
+  th {
+   &.setting { width: 300px; }
+   &.status { width: 100px; text-align: center; }
+   &.value  { width: 480px; }
+  }
+  td {
+    &.status { text-align: center; }
+    &.value input {
+      background-position: right center;
+      background-repeat: no-repeat;
+      padding-right: 20px;
+      width: 480px;
+
+      &.editing { background-image: image-url('silk/pencil.png'); }
+      &.saving { background-image: image-url('loading.gif'); }
+      &.saved { background-image: image-url('silk/accept.png'); }
+      &.failed { background-image: image-url('silk/stop.png'); }
+    }
+  }
+}
+
+/*=========================================================== Upload Manager */
+body.upload {
+  #console {
+    background-color: #000;
+    color: #CCC;
+    padding: 2ex 1ex;
+    margin-top: 2ex;
+    height: 250px;
+    overflow: scroll;
+  }
+
+  .file {
+    padding: 40px;
+    margin: 0 auto;
+    border: 1px solid #dadada;
+    -moz-border-radius: 24px;
+    -webkit-border-radius: 24px;
+  }
+}

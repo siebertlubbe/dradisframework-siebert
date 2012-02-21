@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= content_for?(:title) ? yield(:title) : 'Untitled' %> - <%= Core::VERSION::string %></title>
+    <%= favicon_link_tag %>
+
+    <%= javascript_include_tag 'dradis3' %>
+    <%= stylesheet_link_tag 'dradis3' %>
+    <%= csrf_meta_tag %>
+  </head>
+
+  <body class="<%= controller_name %>">
+    <div class="content">
+      <noscript><div class="error">Please enable JavaScript support.</div></noscript>
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <% end %>
+
+      <%= content_tag :h1, yield(:title) if show_title? %>
+
+      <%= yield %>
+    </div>
+    <div id="footer">
+      <%= Core::VERSION::string %> - <a href="http://dradisframework.org/">http://dradisframework.org</a>
+    </div>
+  </body>
+</html>
+

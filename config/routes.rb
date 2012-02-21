@@ -4,14 +4,18 @@ Dradis::Application.routes.draw do
   match '/login' => 'sessions#new', :as => :login
   match '/logout' => 'sessions#destroy', :as => :logout
 
-  match 'nodes/:node_id/attachments/:id' => 'attachments#show', :constraints => { :id => /.*/ }
+  match '/wizard' => 'wizard#index', :as => :wizard
 
   resources :configurations
   resources :categories
   resources :feeds
+
   resources :nodes do
+    collection { post :sort }
     resources :notes
-    resources :attachments
+    constraints(:id => /.*/) do
+      resources :attachments
+    end
   end
 
   root :to => 'home#index'

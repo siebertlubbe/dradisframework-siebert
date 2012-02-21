@@ -5,17 +5,31 @@
 # Each Node has a :parent node and a :label. Nodes can also have many 
 # Attachment objects associated with them.
 class Node < ActiveRecord::Base
-  before_destroy :destroy_attachments
+  #TODO: attr_accessible :name
+  # Virtual attribute:
+  #   * Set by the NotesController when modifying a note
+  #   * Used by the RevisionObserver to track record changes
+  attr_accessor :updated_by
+
   acts_as_tree
   validates_presence_of :label
   has_many :notes, :dependent => :destroy
 
+  before_destroy :destroy_attachments
+  before_save {|record| record.position = 0 unless record.position }
+
   # Return the JSON structure representing this Node and any child nodes
   # associated with it.
   def as_json(options={})
-    json = { :text => self.label, :id => self.attributes['id'], :type => self.type_id || 0 }
+    json = {
+      :text => self.label,
+      :id => self.attributes['id'],
+      :type => self.type_id || 0,
+      :position => self.position || 0,
+      :parent_id => self.parent_id
+    }
     if (self.children.any?)
-      json[:children] = self.children
+      json[:children] = self.children.sort{|a,b| (a.position||0) <=> (b.position||0) }
     end
     return json
   end
@@ -31,5 +45,10 @@ class Node < ActiveRecord::Base
   def destroy_attachments
     attachments_dir = Attachment.pwd.join(self.id.to_s)
     FileUtils.rm_rf attachments_dir if File.exists?(attachments_dir)
+  end
+
+  module Types
+    DEFAULT = 0
+    HOST = 1
   end
 end

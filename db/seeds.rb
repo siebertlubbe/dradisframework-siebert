@@ -31,7 +31,7 @@ magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
 if ( !File.exists?(magic_file) )
 
   NOTE1 =<<EON
-Here are your notes for the node you just clicked (*Dradis Framework 2.7*)
+Here are your notes for the node you just clicked (*#{Core::VERSION.string}*)
 
 If a node has attachments associated with it you will see an exclamation mark @(!)@ by the _Attachments_ title in the tab strip below.
 EON
@@ -39,30 +39,22 @@ EON
   NOTE2 =<<EON
 h1. What's new in this release?
 
-!{float:left;}/images/logo_small.png!
+!{float:left;}/assets/logo_small.png!
 
-We have improved the web interface with a new 
-"Configuration Manager":configurations to handle all your plugin's configuration.
+In this release we have worked on a number of new plugins and improvements to
+our existing ones:
 
-There is also a new "Upload Manager":upload that processes uploads in the 
-background while providing you with status updates via Ajax.
+* New "Retina Network Security Scanner":http://www.eeye.com/products/retina/retina-network-scanner plugin
+* New "Zed Attack Proxy":https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project upload plugin
+* Faster (60x times) "Nessus":http://www.nessus.org/products/nessus upload plugin
+* Faster "Nikto":http://cirt.net/nikto2 upload plugin
+* Faster "Nmap":http://nmap.org upload plugin (through ruby-nmap gem)
+* Updated VulnDB import plugin (to support "VulnDB HQ":http://vulndbhq.com integration)
 
-We have lots of new plugins:
-* "Metasploit":http://www.metasploit.com import
-* "NeXpose":http://www.rapid7.com/products/nexpose-community-edition.jsp (.xml) upload
-* "OpenVAS":http://openvas.org/ (.xml) upload
-* "SureCheck":http://www.wildcroftsecurity.com/ (.sc) upload (for build reviews)
-* "w3af":http://w3af.sourceforge.net/ (.xml) upload
-* "Web Exploitation Framework":https://github.com/WebExploitationFramework/wXf (wXf) upload
+We have also updated our core stack to use Rails 3.2, the latest release available.
 
-And a few that have been updated:
-* "Nessus":http://www.tenable.com/products/nessus plugin supports .nessus version 2
-* "Vuln::DB":http://securityroots.com/vulndb/ import plugin updated to work with the latest release
-
-Oh, and we have also improved the command line API with Thor. To checkout all 
-the available tasks, go to the server folder and run:
-
-bc. thor -T
+Do you have some ideas? Send us your feature requests!
+"http://dradisframework.uservoice.com/":http://dradisframework.uservoice.com/forums/38386-general
 
 Remember that the _First Time User's Wizard_ can be found at "/wizard":/wizard
 
@@ -74,17 +66,18 @@ EON
   NOTE3 =<<EON
 h1. Getting Help
 * Project Site: "http://dradisframework.org":http://dradisframework.org
+* Dradis Guides: "http://guides.dradisframework.org":http://guides.dradisframework.org
 * "Community Forums":http://dradisframework.org/community/
 * "Request a feature":http://dradisframework.uservoice.com/
 * Found a bug? "Report it!":http://sourceforge.net/tracker/?atid=1010917&group_id=209736&func=browse
 * IRC: *#dradis* @irc.freenode.org
 EON
 
-  root = Node.create!(:label => 'Dradis Framework 2.7')
+  root = Node.create!(:label => Core::VERSION.string)
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
-  destination = File.join(Rails.root, 'attachments', root.id.to_s)
+  destination = Attachment.pwd.join(root.id.to_s)
   FileUtils.mkdir_p(destination)
-  FileUtils.cp( File.join(Rails.root, 'public', 'images', 'logo_small.png'), File.join(destination, 'logo.png') )
+  FileUtils.cp( Rails.root.join('app', 'assets', 'images', 'logo_small.png'), destination.join('logo.png') )
 
   whats_new = root.children.create!( :label => 'What\'s new?')
   whats_new.notes.create!( :author => 'First time wizard', :category_id => 1, :text =>  NOTE2)

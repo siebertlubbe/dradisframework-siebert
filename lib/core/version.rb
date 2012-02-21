@@ -14,12 +14,12 @@
 module Core #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 2
-    MINOR = 8
+    MINOR = 10
     TINY  = 0
 
     STRING = [MAJOR, MINOR, TINY].join('.')
     def VERSION.string
-      "dradis v#{STRING}";
+      "Dradis Framework v#{STRING}";
     end
     def VERSION.show
       puts VERSION.string; exit(0); 

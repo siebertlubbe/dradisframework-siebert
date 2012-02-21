@@ -5,8 +5,8 @@
     <link href="/favicon.ico" rel="icon" />
 
     <%# See config/initializers/asset_expansion.rb %>
-    <%= javascript_include_tag  :extjs_base, :extjs_3rdparty, :extjs_dradis, :legacy, :cache => true %>
-    <%= stylesheet_link_tag :extjs, :base, :cache => true %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
 
     <!-- RSS feed -->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feeds" />
@@ -15,6 +15,7 @@
   </head>
   <body>
     <noscript>
+      <div id="logo">&nbsp;</div>
       <p>This application makes extensive use of JavaScript. Please enable 
       JavaScript support in your browser. (<%= link_to 'logout', logout_path %>)</p>
     </noscript>  
@@ -33,8 +34,10 @@
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
       dradis.revision = <%= Configuration.revision %>;
+      dradis.last_audit = <%= @last_audit %>;
       dradis.version = "<%= Core::VERSION.string  %>";
       dradis.firstrender = <%= !!flash[:first_login] %>;
+      Ext.BLANK_IMAGE_URL = "<%= image_path 'default/s.gif' %>";
     </script>
   </body>
 </html>
