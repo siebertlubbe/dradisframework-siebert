@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.0'
+gem 'rails', '3.2.3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -15,6 +15,7 @@ gem 'execjs'
 gem 'therubyracer'
 
 gem 'jquery-rails'
+gem 'jquery-fileupload-rails'
 
 gem 'builder'
 gem 'nokogiri'
@@ -32,7 +33,7 @@ gem 'rubyzip', '~> 0.9.6.1'
 gem 'rspec-rails', :group => [:development, :test]
 
 group :test do
-  gem 'factory_girl'
+  gem 'factory_girl', '~> 2.6.4'
   gem 'capybara'
   gem 'guard-rspec'
 end

@@ -23,9 +23,19 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
         }),
         this.fields.preview = new dradis.notes.NotePreviewPanel({
           title: 'Preview'
+        }),
+        this.fields.attachments = new dradis.attachments.Viewer({
+          title: 'Attachments',
+          store: this.attachmentsStore
         })
       ],
+      buttonAlign: 'left',
       buttons:[
+        {
+          xtype: 'tbtext',
+          html: '<a href="javascript:dradis.notes.NoteEditorWindow.formatCheatSheet();">Formatting cheat sheet</a>',
+        },
+        '->',
         {
           text:'Save',
           scope:this,
@@ -67,6 +77,7 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
   load: function(record){
     this.fields.editor.setValue( record.get('text') );
     this.fields.preview.update( record.get('text') );
+    this.fields.attachments.load( record.get('node_id') );
   },
 
   clear: function(){
@@ -130,6 +141,27 @@ dradis.notes.NoteEditorWindow=Ext.extend(Ext.Window, {
 
   clear: function(){ this.fields.panel.clear(); }
 });
+
+// Static method to show the formatting cheat sheet
+dradis.notes.NoteEditorWindow.formatCheatSheet = function(){
+  var modal = new Ext.Window({
+    closeAction: 'hide',
+    height: 400,
+    layout: 'fit',
+    modal: true,
+    resizable: false,
+    title: 'Formatting Cheat Sheet',
+    width: 800,
+    items: [
+      {
+        xtype: 'panel',
+        contentEl: 'formatting-cheat-sheet'
+      }
+    ]
+  });
+  modal.show();
+}
+
 
 
 Ext.reg('noteeditor', dradis.notes.NoteEditorWindow); 
